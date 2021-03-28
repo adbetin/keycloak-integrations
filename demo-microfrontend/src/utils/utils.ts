@@ -7,20 +7,17 @@ const KEYCLOAK_CONFIG = {
 }
 
 const KEYCLOAK_INIT_CONFIG = {
-  onLoad: 'login-required',
-  flow: 'inplicit',
+  onLoad: 'check-sso',
+  silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
 }
 
-export async function authenticate(token: string, refreshToken: string): Promise<any> {
-  const keyCloakConfig = {KEYCLOAK_INIT_CONFIG, token, refreshToken}
+export function authenticate(token: string, refreshToken: string): Promise<any> {
+  const keyCloakConfig = {...KEYCLOAK_INIT_CONFIG, token, refreshToken}
   console.log('keyCloakConfig', keyCloakConfig);
   let keycloak = new Keycloak(KEYCLOAK_CONFIG);
   return keycloak.init(keyCloakConfig).then((authenticated: boolean) => {
     console.log('result: ', authenticated);
     console.log(authenticated ? 'authenticated' : 'not authenticated');
-    // if (!authenticated) keycloak.login({
-    //   // prompt: "none"
-    // });
     return authenticated;
   }).catch(() => false);
 }

@@ -24,7 +24,7 @@ export class MyComponent implements ComponentInterface {
     return (
       <div>
         {
-          this.authenticated ? `Hello, World! I'm authenticated` : <b> `You are not authenticated` </b>
+          this.authenticated ? `Hello, World! I'm authenticated` : <b> You are not authenticated </b>
         }
       </div>);
   }

@@ -7,9 +7,10 @@
 
 ## Properties
 
-| Property | Attribute | Description    | Type     | Default     |
-| -------- | --------- | -------------- | -------- | ----------- |
-| `token`  | `token`   | security token | `string` | `undefined` |
+| Property       | Attribute       | Description    | Type     | Default     |
+| -------------- | --------------- | -------------- | -------- | ----------- |
+| `refreshToken` | `refresh-token` |                | `string` | `undefined` |
+| `token`        | `token`         | security token | `string` | `undefined` |
 
 
 ----------------------------------------------

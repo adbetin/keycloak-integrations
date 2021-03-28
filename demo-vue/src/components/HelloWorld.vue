@@ -8,11 +8,10 @@
     >
     </demo-microfrontent-auth>
     <h3>Tokens</h3>
-    <p>
-      {{ tokens }}
-    </p>
-    <h3>User info</h3>
-    <p>{{ userInfo }}</p>
+    <p>{{ tokens }}</p>
+    
+    <h3>Auth Instance</h3>
+    <p>{{ authInstance }}</p>
   </div>
 </template>
 
@@ -28,6 +27,9 @@ export default {
     },
     userInfo: function () {
       return this.$store.getters.userInfo;
+    },
+    authInstance: function () {
+      return this.$store.getters.authInstance;
     },
   },
   created() {

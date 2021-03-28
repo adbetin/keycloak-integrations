@@ -9,6 +9,10 @@ export default class AuthService {
         return this.keycloakInstance.loadUserProfile();
     }
 
+    getInstance(){
+        return this.keycloakInstance;
+    }
+
     getTokens(){
         return{
             token: this.keycloakInstance.token,

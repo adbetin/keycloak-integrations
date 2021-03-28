@@ -12,7 +12,8 @@ export function generateStore(keycloak) {
             authenticated: false,
             token: "",
             refreshToken: "",
-            userInfo: {}
+            userInfo: {},
+            authInstance: {}
         },
         mutations: {
             SET_AUTHENTICATED(state, authenticated) {
@@ -20,6 +21,9 @@ export function generateStore(keycloak) {
             },
             SET_USER_INFO(state, userInfo) {
                 state.userInfo = userInfo;
+            },
+            SET_AUTH_INSTANCE(state, authInstance) {
+                state.authInstance = authInstance;
             },
             SET_TOKENS(state, tokens) {
                 state.token = tokens.token;
@@ -30,8 +34,10 @@ export function generateStore(keycloak) {
             async login(context) {
                 const tokens =  authService.getTokens();
                 context.commit('SET_TOKENS', tokens);
-                const userInfo = await authService.userInfo();
-                context.commit('SET_USER_INFO', userInfo);
+                const authInstance = authService.getInstance();
+                context.commit('SET_AUTH_INSTANCE', authInstance);
+                // const userInfo = await authService.userInfo();
+                // context.commit('SET_USER_INFO', userInfo);
                 context.commit('SET_AUTHENTICATED', true);
             },
             async logout(context) {
@@ -51,6 +57,9 @@ export function generateStore(keycloak) {
             },
             userInfo(state) {
                 return state.userInfo;
+            },
+            authInstance(state) {
+                return state.authInstance;
             },
         },
         modules: {

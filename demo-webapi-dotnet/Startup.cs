@@ -51,8 +51,23 @@ namespace demo_webapi_dotnet
                     //ValidAudiences = new[] { "master-realm", "account" },
                     ValidateIssuer = false,
                     // ValidIssuer = this.Configuration["Oidc:Authority"],
-                    ValidateLifetime = false
+                    ValidateLifetime = false,
+                    ValidateTokenReplay = false,
+                    ValidateIssuerSigningKey = false,
+                    // RoleClaimType = "groups"
                 };
+                // options.Events = new JwtBearerEvents()
+                // {
+                //     OnTokenValidated = context =>
+                //     {
+                //         // Check if the user has an OID claim
+                //         if (!context.Principal.HasClaim(c => c.Type == "http://schemas.microsoft.com/identity/claims/objectidentifier"))
+                //         {
+                //             //context.Fail($"The claim 'oid' is not present in the token.");
+                //         }
+                //         return Task.CompletedTask;
+                //     },
+                // };
             });
 
             services.AddAuthorization();
@@ -73,7 +88,7 @@ namespace demo_webapi_dotnet
             app.UseRouting();
 
             app.UseAuthentication();
-            
+
             app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>

@@ -26,7 +26,7 @@ namespace demo_webapi_dotnet.Controllers
         }
 
         [HttpGet]
-        [Authorize]
+        [Authorize(Roles = "admin-microservices")]
         public IEnumerable<WeatherForecast> Get()
         {
             var rng = new Random();

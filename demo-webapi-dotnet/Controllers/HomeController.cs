@@ -28,6 +28,7 @@ namespace  demo_webapi_dotnet.Controllers
                 $"{HttpContext.Request.Scheme}://{HttpContext.Request.Host}/signout-oidc",
                 "==== IDENTITY ===============",
                 HttpContext.User?.Identity?.Name,
+                HttpContext.User.IsInRole("admin-microservices") + "",
                 //"==== CLAIMS ===============",
                 HttpContext.User?.Claims?.Any() == true ? HttpContext.User?.Claims?.Select(h => $"CLAIM {h.Type}: {h.Value}").Aggregate((i, j) => i + " | " + j) : null,
                 "==== TOKENS ===============",

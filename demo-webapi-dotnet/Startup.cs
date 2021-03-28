@@ -12,6 +12,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Http;
 
 namespace demo_webapi_dotnet
 {
@@ -30,6 +31,13 @@ namespace demo_webapi_dotnet
             services.AddControllers()
             .AddNewtonsoftJson(x => x.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore);
 
+            services.AddCors(o => o.AddPolicy("MyPolicy", builder =>
+            {
+                builder.AllowAnyOrigin()
+                    .AllowAnyMethod()
+                    .AllowAnyHeader();
+            }));
+
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
                 .AddJwtBearer(options =>
             {
@@ -41,8 +49,8 @@ namespace demo_webapi_dotnet
                 {
                     ValidateAudience = false,
                     //ValidAudiences = new[] { "master-realm", "account" },
-                    ValidateIssuer = true,
-                    ValidIssuer = this.Configuration["Oidc:Authority"],
+                    ValidateIssuer = false,
+                    // ValidIssuer = this.Configuration["Oidc:Authority"],
                     ValidateLifetime = false
                 };
             });
@@ -58,13 +66,15 @@ namespace demo_webapi_dotnet
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors("MyPolicy");
+
             app.UseHttpsRedirection();
 
             app.UseRouting();
 
-            app.UseAuthorization();
-
             app.UseAuthentication();
+            
+            app.UseAuthorization();
 
             app.UseEndpoints(endpoints =>
             {

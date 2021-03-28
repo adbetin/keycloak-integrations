@@ -1,4 +1,5 @@
 import { Component, Prop, h, ComponentInterface, State } from '@stencil/core';
+import { getWeatherForecast } from "../../services/weatherService";
 import { authenticate } from '../../utils/utils';
 
 @Component({
@@ -14,18 +15,29 @@ export class MyComponent implements ComponentInterface {
   @Prop() token: string;
   @Prop() refreshToken: string;
 
-  @State() authenticated: boolean;
+  @State() authenticated: any;
+  @State() weather: Array<any>;
 
   async connectedCallback() {
     this.authenticated = await authenticate(this.token, this.refreshToken);
+    if (this.authenticated) {
+      this.weather = await getWeatherForecast(this.authenticated?.token);
+    }
+  }
+
+  renderWeatherList() {
+    if (this.weather) {
+      return this.weather.map(_w => <div>
+        <p><b>{_w.summary}</b>: {_w.temperatureC}c ({_w.temperatureF}f)</p>
+      </div>)
+    }
   }
 
   render() {
     return (
       <div>
-        {
-          this.authenticated ? `Hello, World! I'm authenticated` : <b> You are not authenticated </b>
-        }
+        {this.authenticated ? "Hello, World! I'm authenticated" : <b> You are not authenticated </b>}
+        {this.renderWeatherList()}
       </div>);
   }
 }

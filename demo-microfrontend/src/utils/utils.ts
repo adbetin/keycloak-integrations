@@ -7,7 +7,7 @@ const KEYCLOAK_CONFIG = {
 }
 
 const KEYCLOAK_INIT_CONFIG = {
-  onLoad: 'login-required',
+  onLoad: 'check-sso',
   silentCheckSsoRedirectUri: window.location.origin + '/silent-check-sso.html'
 }
 
